@@ -1,10 +1,11 @@
-import React, {useState, useEffect} from "react";
+import React, { useState } from "react";
 import axios from 'axios';
+import { Link } from "react-router-dom";
 
 export default function Login() {
     const [inputId, setInputId] = useState("");
-    const [inputPw,setInputPw] = useState("");
-    const [isLogin, setIsLogin] = useState(false);
+    const [inputPw, setInputPw] = useState("");
+    //const [isLogin, setIsLogin] = useState(false);
 
     /*useEffect(() => {
         if(sessionStorage.getItem("name") === null) {
@@ -15,7 +16,7 @@ export default function Login() {
         }
     });*/
 
-   // 링크는 관련 jsx파일 생성시 동작
+    // 링크는 관련 jsx파일 생성시 동작
     /*{isLogin ? (
         <Link to={`/MyPage`} className="nav-link text-white">
             {sessionStorage.getItem("name")}
@@ -35,15 +36,19 @@ export default function Login() {
     const onClickLogin = () => {
         console.log("click login");
         console.log("Id: ", inputId);
-        console.log("Pw: ",inputPw);
+        console.log("Pw: ", inputPw);
         axios
-            .post("/member/login", {
+            .post("http://localhost:8080/member/login", {
                 email: inputId,
                 password: inputPw,
             })
             .then((res) => {
                 console.log("성공");
                 console.log(res.data);
+
+            })
+            .catch(err => {
+                window.alert("로그인실패");
             })
     };
 
@@ -51,18 +56,18 @@ export default function Login() {
         <div className="page">
             <div>
                 <input type="text" className="form-control" placeholder="email" name={inputId}
-                    value={inputId} onChange={handleInputId}/>
+                    value={inputId} onChange={handleInputId} />
             </div>
             <div>
                 <input type="password" className="form-control" placeholder="password" name={inputPw}
-                    value={inputPw} onChange={handleInputPw}/>
-                <br/>
-                <a href="#">회원이 아니신가요?</a>
+                    value={inputPw} onChange={handleInputPw} />
+                <br />
+                <Link to="/sign">회원이 아니신가요?</Link>
             </div>
             <button type="button" onClick={onClickLogin}>확인</button>
         </div>
-     
-        
+
+
     );
 
 }
