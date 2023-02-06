@@ -4,40 +4,57 @@ import { Link } from "react-router-dom";
 
 export default function SignUp() {
     let [inputId, setInputId] = useState("");
+    const [isId, setIsId] = useState("");
+
     let [inputPw, setInputPw] = useState("");
+    const [isPw, setIsPw] = useState("");
+
     let [inputName, setInputName] = useState("");
-    const [idValid, setIdValid] = useState(false);
-    const [pwValid, setPwValid] = useState(false);
-    const [nameValid, setNameValid] = useState(false);
+    const [isName, setIsName] = useState("");
+
+    let [inputBirth, setInputBirth] = useState("");
+    const [isBirth, setIsBirth] = useState("");
+
     const [notAllow, setNotAllow] = useState(true);
 
     const handleInputId = (e) => {
         setInputId(e.target.value);
-        /*const regex = /^(([^<>()\[\].,;:\s@"]+(\.[^<>()\[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
-        if (regex.test(inputId)) {
-            setIdValid(true);
+        const regex = /^(([^<>()\[\].,;:\s@"]+(\.[^<>()\[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
+        if (!regex.test(e.target.value)) {
+            setIsId(false);
         } else {
-            setIdValid(false);
-        }*/
+            setIsId(true);
+        }
     }
+
     const handleInputPw = (e) => {
         setInputPw(e.target.value);
-        /*const regex = /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+])(?!.*[^a-zA-z0-9$`~!@$!%*#^?&\\(\\)\-_=+]).{8,20}$/;
-        if (regex.test(inputPw)) {
-            setPwValid(true);
+        const regex = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/
+        if (!regex.test(e.target.value)) {
+            setIsPw(false);
         } else {
-            setPwValid(false);
-        }*/
+            setIsPw(true);
+        }
     }
+
     const handleInputName = (e) => {
         setInputName(e.target.value);
-        /*const regex = /^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|]+$/;
-        if (regex.test(inputName)) {
-            setNameValid(true);
+        const regex = /^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|]+$/;
+        if (e.target.value != regex) {
+            setIsName(false);
         } else {
-            setNameValid(false);
-        }*/
+            setIsName(true);
+        }
+    }
 
+    const handleInputBirth = (e) => {
+        setInputBirth(e.target.value);
+        const regex = /[^0-9]/g;
+        if (e.target.value != regex) {
+            setIsBirth(false);
+        } else {
+            setIsBirth(true);
+        }
     }
     const onSubmit = () => {
         axios
@@ -45,7 +62,7 @@ export default function SignUp() {
                 email: inputId,
                 password: inputPw,
                 nickname: inputName,
-
+                birth: inputBirth,
             })
             .then((res) => {
                 console.log("성공");
@@ -55,23 +72,22 @@ export default function SignUp() {
             })
 
     }
-    /*useEffect(() => {
-        if (idValid) {
+    useEffect(() => {
+        if (isBirth && isName && isPw && isId) {
             setNotAllow(false);
             return;
         }
         setNotAllow(true);
-
-    }, [idValid]);*/
+    }, [isBirth, isId, isName, isPw]);
 
     return (
 
         <div>
             <div>
-                <input type="text" name={inputId} required={true} value={inputId} onChange={handleInputId} placeholder="아이디" />
+                <input type="email" name={inputId} required={true} value={inputId} onChange={handleInputId} placeholder="아이디" />
             </div>
             <div>
-                {!idValid && inputId.length > 0 && (
+                {!isId && inputId.length > 0 && (
                     <div>올바른 이메일을 입력</div>
                 )}
             </div>
@@ -79,23 +95,31 @@ export default function SignUp() {
                 <input type="password" name={inputPw} required={true} value={inputPw} onChange={handleInputPw} placeholder="비밀번호" />
             </div>
             <div>
-                {!pwValid && inputPw.length > 0 && (
+                {!isPw && inputPw.length > 0 && (
                     <div>영문, 숫자, 특수문자 포함 8자이상 입력</div>
                 )}
             </div>
             <div>
-                <input type="text" name={inputName} required={true} value={inputName} onChange={handleInputName} placeholder="이름" />
+                <input type="text" maxlength="4" name={inputName} required={true} value={inputName} onChange={handleInputName} placeholder="이름" />
             </div>
             <div>
-                {!nameValid && inputName.length > 3 && (
-                    <div>한글로 입력</div>
+                {!isName && inputName.length > 4 && (
+                    <div>한글로 입력(5자리 미만)</div>
+                )}
+            </div>
+            <div>
+                <input type="text" maxlength="6" name={inputBirth} required={true} value={inputBirth} onChange={handleInputBirth} placeholder="생년월일" />
+            </div>
+            <div>
+                {!isBirth && (inputBirth.length < 6 && inputBirth.length > 0) && (
+                    <div>숫자로 입력(6자리)</div>
                 )}
             </div>
             <div>
                 <Link to="/">회원이신가요?</Link>
             </div>
             <div>
-                <button type="button" onClick={onSubmit}>가입</button>
+                <button type="button" disabled={notAllow} onClick={onSubmit}>가입</button>
             </div>
 
         </div>
