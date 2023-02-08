@@ -4,16 +4,17 @@ import { Link } from "react-router-dom";
 
 export default function SignUp() {
     let [inputId, setInputId] = useState("");
-    const [isId, setIsId] = useState("");
+    const [isId, setIsId] = useState(false);
 
     let [inputPw, setInputPw] = useState("");
-    const [isPw, setIsPw] = useState("");
+    const [isPw, setIsPw] = useState(false);
 
     let [inputName, setInputName] = useState("");
-    const [isName, setIsName] = useState("");
+    const [isName, setIsName] = useState(false);
 
     let [inputBirth, setInputBirth] = useState("");
-    const [isBirth, setIsBirth] = useState("");
+    const [isBirth, setIsBirth] = useState(false);
+
 
     const [notAllow, setNotAllow] = useState(true);
 
@@ -29,33 +30,34 @@ export default function SignUp() {
 
     const handleInputPw = (e) => {
         setInputPw(e.target.value);
-        const regex = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/
-        if (!regex.test(e.target.value)) {
-            setIsPw(false);
-        } else {
+        const regex = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/;
+        if (regex.test(e.target.value)) {
             setIsPw(true);
+        } else {
+            setIsPw(false);
         }
     }
 
     const handleInputName = (e) => {
         setInputName(e.target.value);
-        const regex = /^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|]+$/;
-        if (e.target.value != regex) {
-            setIsName(false);
-        } else {
+        const regex = /^[가-힣]+$/;
+        if (regex.test(e.target.value)) {
             setIsName(true);
+        } else {
+            setIsName(false);
         }
     }
 
     const handleInputBirth = (e) => {
         setInputBirth(e.target.value);
-        const regex = /[^0-9]/g;
-        if (e.target.value != regex) {
-            setIsBirth(false);
-        } else {
+        const regex = /^[0-9\b]+$/;
+        if (regex.test(e.target.value)) {
             setIsBirth(true);
+        } else {
+            setIsBirth(false);
         }
     }
+
     const onSubmit = () => {
         axios
             .post("http://localhost:8080/member/sign-up", {
@@ -63,6 +65,7 @@ export default function SignUp() {
                 password: inputPw,
                 nickname: inputName,
                 birth: inputBirth,
+
             })
             .then((res) => {
                 console.log("성공");
@@ -72,8 +75,9 @@ export default function SignUp() {
             })
 
     }
+
     useEffect(() => {
-        if (isBirth && isName && isPw && isId) {
+        if (isName && isPw && isId && isBirth) {
             setNotAllow(false);
             return;
         }
@@ -100,26 +104,27 @@ export default function SignUp() {
                 )}
             </div>
             <div>
-                <input type="text" maxlength="4" name={inputName} required={true} value={inputName} onChange={handleInputName} placeholder="이름" />
+                <input type="text" maxlength="6" name={inputBirth} required={true} value={inputBirth} onChange={handleInputBirth} placeholder="월/일(예:0105)" />
             </div>
             <div>
-                {!isName && inputName.length > 4 && (
-                    <div>한글로 입력(5자리 미만)</div>
-                )}
-            </div>
-            <div>
-                <input type="text" maxlength="6" name={inputBirth} required={true} value={inputBirth} onChange={handleInputBirth} placeholder="생년월일" />
-            </div>
-            <div>
-                {!isBirth && (inputBirth.length < 6 && inputBirth.length > 0) && (
+                {!isBirth && (inputBirth.length > 6 && inputBirth.length > 0) && (
                     <div>숫자로 입력(6자리)</div>
                 )}
             </div>
             <div>
+                <input type="text" maxlength="4" name={inputName} required={true} value={inputName} onChange={handleInputName} placeholder="이름" />
+            </div>
+            <div>
+                {!isName && (inputName.length > 0 && inputName.length > 5) && (
+                    <div>한글로 입력(5자리 미만)</div>
+                )}
+            </div>
+
+            <div>
                 <Link to="/">회원이신가요?</Link>
             </div>
             <div>
-                <button type="button" disabled={notAllow} onClick={onSubmit}>가입</button>
+                <button disabled={notAllow} onClick={onSubmit}>가입</button>
             </div>
 
         </div>
