@@ -1,0 +1,86 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap');
+
+* {
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
+.SignUpPage {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    max-width: 500px;
+    padding: 0 20px;
+
+    left: 50%;
+    transform: translate(-50%, 0);
+
+    background-color: #efefef79;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.SignTitle {
+    margin-top: 40%;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.SignTitle>span {
+    font-size: 30px;
+
+}
+
+.contentWrap {
+    border-radius: 18px;
+    padding: 16px;
+    background-color: white;
+    border: 1px solid #c9c7c7;
+
+}
+
+.inforInput>input {
+    margin-left: 120px;
+    font-size: 14px;
+    outline: none;
+    border: none;
+    border-bottom: 1px solid #c5c5c5;
+}
+
+.nameTitle {
+    margin-top: 20px;
+    margin-left: 120px;
+    font-size: 17px;
+    color: #727272;
+}
+
+.inputMessage {
+    color: #ff3838;
+    font-size: 12px;
+    margin-left: 120px;
+}
+
+.linkHref {
+    margin-top: 10px;
+    margin-left: 245px;
+    font-size: 13px;
+}
+
+.buttonStyle {
+    margin-top: 10px;
+    margin-left: 120px;
+}
+
+.buttonStyle>button {
+    border-radius: 5px;
+    border: none;
+    height: 30px;
+    background-color: rgba(144, 198, 249, 0.651);
+    width: 206px;
+    cursor: pointer;
+}
+
+.buttonStyle>button:disabled {
+    background-color: rgba(160, 209, 255, 0.415);
+}

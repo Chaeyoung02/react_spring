@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
+import "./style.css";
+
 export default function SignUp() {
     let [inputId, setInputId] = useState("");
     const [isId, setIsId] = useState(false);
@@ -86,47 +88,69 @@ export default function SignUp() {
 
     return (
 
-        <div>
-            <div>
-                <input type="email" name={inputId} required={true} value={inputId} onChange={handleInputId} placeholder="아이디" />
+        <div className="SignUpPage">
+            <div className="SignTitle">
+                <span>회원가입</span>
             </div>
-            <div>
-                {!isId && inputId.length > 0 && (
-                    <div>올바른 이메일을 입력</div>
-                )}
-            </div>
-            <div>
-                <input type="password" name={inputPw} required={true} value={inputPw} onChange={handleInputPw} placeholder="비밀번호" />
-            </div>
-            <div>
-                {!isPw && inputPw.length > 0 && (
-                    <div>영문, 숫자, 특수문자 포함 8자이상 입력</div>
-                )}
-            </div>
-            <div>
-                <input type="text" maxlength="6" name={inputBirth} required={true} value={inputBirth} onChange={handleInputBirth} placeholder="월/일(예:0105)" />
-            </div>
-            <div>
-                {!isBirth && (inputBirth.length > 6 && inputBirth.length > 0) && (
-                    <div>숫자로 입력(6자리)</div>
-                )}
-            </div>
-            <div>
-                <input type="text" maxlength="4" name={inputName} required={true} value={inputName} onChange={handleInputName} placeholder="이름" />
-            </div>
-            <div>
-                {!isName && (inputName.length > 0 && inputName.length > 5) && (
-                    <div>한글로 입력(5자리 미만)</div>
-                )}
-            </div>
+            <div className="contentWrap">
+                <div className="nameTitle">
+                    <span>아이디</span>
+                </div>
 
-            <div>
-                <Link to="/">회원이신가요?</Link>
-            </div>
-            <div>
-                <button disabled={notAllow} onClick={onSubmit}>가입</button>
-            </div>
+                <div className="inforInput">
+                    <input type="email" classname="input" name={inputId} required={true} value={inputId} onChange={handleInputId} />
+                </div>
+                <div className="inputMessage">
+                    {!isId && inputId.length > 0 && (
+                        <div>* 올바른 이메일을 입력</div>
+                    )}
+                </div>
+                <div className="nameTitle">
+                    <span>비밀번호</span>
+                </div>
 
+                <div className="inforInput">
+
+                    <input type="password" classname="input" name={inputPw} required={true} value={inputPw} onChange={handleInputPw} />
+                </div>
+                <div className="inputMessage">
+                    {!isPw && inputPw.length > 0 && (
+                        <div>* 영문, 숫자, 특수문자 포함 8자이상 입력</div>
+                    )}
+                </div>
+                <div className="nameTitle">
+                    <span>생년월일</span>
+                </div>
+
+                <div className="inforInput">
+                    <input type="text" maxlength="6" classname="input" name={inputBirth} required={true} value={inputBirth} onChange={handleInputBirth} />
+                </div>
+                <div className="inputMessage">
+                    {!isBirth && (inputBirth.length > 6 && inputBirth.length > 0) && (
+                        <div>* 숫자로 입력(6자리)</div>
+                    )}
+                </div>
+                <div className="nameTitle">
+                    <span>이름</span>
+                </div>
+
+                <div className="inforInput">
+
+                    <input type="text" maxlength="4" classname="input" name={inputName} required={true} value={inputName} onChange={handleInputName} />
+                </div>
+                <div className="inputMessage">
+                    {!isName && (inputName.length > 0 && inputName.length > 4) && (
+                        <div>* 2글자-4글자사이 작성</div>
+                    )}
+                </div>
+
+                <div className="linkHref">
+                    <Link to="/">회원이신가요?</Link>
+                </div>
+                <div className="buttonStyle">
+                    <button disabled={notAllow} onClick={onSubmit}>가입</button>
+                </div>
+            </div>
         </div>
     )
 
